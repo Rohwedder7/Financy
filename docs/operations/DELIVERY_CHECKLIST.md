@@ -21,7 +21,7 @@
 - [x] CORS e `.env.example` configurados.
 - [x] Migration inicial versionada.
 - [x] `pnpm verify` e `pnpm test:e2e` verdes localmente.
-- [ ] CI verde em clone limpo (workflow em `.github/workflows/ci.yml`; confirmar após o push).
+- [x] CI verde em clone limpo ([run 33580037626](https://github.com/Rohwedder7/Financy/actions/runs/33580037626); `pnpm verify` + `pnpm test:e2e`).
 
 ## Evidência
 
