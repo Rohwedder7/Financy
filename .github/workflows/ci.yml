@@ -22,11 +22,14 @@ jobs:
       VITE_BACKEND_URL: http://localhost:3000/graphql
     steps:
       - uses: actions/checkout@v5
+      # setup-node v5 auto-caches from packageManager and fails if pnpm is not on PATH yet.
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.19.0
       - uses: actions/setup-node@v5
         with:
           node-version-file: .nvmrc
-      - run: corepack enable
-      - run: corepack prepare pnpm@11.19.0 --activate
+          cache: pnpm
       - run: pnpm install
       - run: pnpm db:generate
       - run: pnpm verify
@@ -45,11 +48,13 @@ jobs:
       VITE_BACKEND_URL: http://localhost:3000/graphql
     steps:
       - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.19.0
       - uses: actions/setup-node@v5
         with:
           node-version-file: .nvmrc
-      - run: corepack enable
-      - run: corepack prepare pnpm@11.19.0 --activate
+          cache: pnpm
       - run: pnpm install
       - run: pnpm db:generate
       - run: pnpm --filter frontend exec playwright install --with-deps chromium

@@ -2,7 +2,7 @@
 
 ## Repositório
 
-- [ ] Repositório público com `backend/` e `frontend/`.
+- [x] Repositório público com `backend/` e `frontend/` (`https://github.com/Rohwedder7/Financy`).
 - [x] Branch principal contém somente requisitos obrigatórios.
 - [x] Histórico sem `.env`, banco, tokens ou arquivos gerados pesados (`pnpm secrets:scan` / `pnpm docs:validate`).
 - [x] README reproduz uma instalação limpa.
