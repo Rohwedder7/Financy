@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      DATABASE_URL: file:./prisma/ci.db
+      JWT_SECRET: ci-only-secret-with-at-least-32-characters
+      JWT_EXPIRES_IN: 15m
+      JWT_ISSUER: financy-api
+      JWT_AUDIENCE: financy-web
+      CORS_ORIGIN: http://localhost:5173
+      VITE_BACKEND_URL: http://localhost:3000/graphql
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+      - run: corepack enable
+      - run: corepack prepare pnpm@11.19.0 --activate
+      - run: pnpm install
+      - run: pnpm db:generate
+      - run: pnpm verify
+
+  e2e-foundation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: quality
+    env:
+      DATABASE_URL: file:./prisma/ci-e2e.db
+      JWT_SECRET: ci-only-secret-with-at-least-32-characters
+      JWT_EXPIRES_IN: 15m
+      JWT_ISSUER: financy-api
+      JWT_AUDIENCE: financy-web
+      CORS_ORIGIN: http://localhost:5173
+      VITE_BACKEND_URL: http://localhost:3000/graphql
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+      - run: corepack enable
+      - run: corepack prepare pnpm@11.19.0 --activate
+      - run: pnpm install
+      - run: pnpm db:generate
+      - run: pnpm --filter frontend exec playwright install --with-deps chromium
+      - run: pnpm test:e2e

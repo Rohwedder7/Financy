@@ -1,0 +1,17 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.local
+.env.*.local
+!.env.example
+backend/prisma/*.db
+backend/prisma/*.db-journal
+backend/src/generated/
+frontend/playwright-report/
+frontend/test-results/
+schema.gql
+*.log
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,61 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "esm"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String        @id @default(cuid())
+  name         String
+  email        String        @unique
+  passwordHash String
+  categories   Category[]
+  transactions Transaction[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Category {
+  id             String        @id @default(cuid())
+  name           String
+  normalizedName String
+  color          String?
+  icon           String?
+  userId         String
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions   Transaction[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@unique([userId, normalizedName])
+  // BR-TXN-003: target of Transaction's composite foreign key, so the database
+  // itself refuses a transaction pointing at another user's category.
+  @@unique([id, userId])
+  @@index([userId])
+}
+
+model Transaction {
+  id            String          @id @default(cuid())
+  description   String
+  amountInCents Int
+  type          TransactionType
+  occurredAt    DateTime
+  categoryId    String
+  category      Category        @relation(fields: [categoryId, userId], references: [id, userId], onDelete: Restrict)
+  userId        String
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@index([userId, occurredAt])
+  @@index([userId, categoryId])
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}

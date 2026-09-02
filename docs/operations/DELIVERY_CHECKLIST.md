@@ -1,0 +1,31 @@
+# Checklist de entrega
+
+## Repositório
+
+- [ ] Repositório público com `backend/` e `frontend/`.
+- [x] Branch principal contém somente requisitos obrigatórios.
+- [x] Histórico sem `.env`, banco, tokens ou arquivos gerados pesados (`pnpm secrets:scan` / `pnpm docs:validate`).
+- [x] README reproduz uma instalação limpa.
+
+## Funcional
+
+- [x] Cadastro, login, logout e `me`.
+- [x] CRUD completo de categorias.
+- [x] CRUD completo de transações.
+- [x] Dashboard e navegação autenticada (tokens provisórios; comparação Figma na SPEC-011).
+- [x] Isolamento usuário A/B demonstrado.
+
+## Técnico
+
+- [x] TypeScript, React, Vite, GraphQL, Prisma e SQLite confirmados.
+- [x] CORS e `.env.example` configurados.
+- [x] Migration inicial versionada.
+- [x] `pnpm verify` e `pnpm test:e2e` verdes localmente.
+- [ ] CI verde em clone limpo (workflow em `.github/workflows/ci.yml`; confirmar após o push).
+
+## Evidência
+
+- [x] Matriz de rastreabilidade sem lacunas silenciosas (`OPEN-UI-001` explícito).
+- [ ] SPECs concluídas movidas para `specs/completed` (SPEC-012 ainda ativa; SPEC-011 bloqueada).
+- [ ] Screenshots comparativos com os nós Figma (`OPEN-UI-001`).
+- [ ] Link público testado em janela anônima antes do envio.

@@ -1,0 +1,31 @@
+{
+  "name": "financy",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Specification-driven full-stack personal finance manager.",
+  "packageManager": "pnpm@11.19.0",
+  "engines": {
+    "node": "24.19.x",
+    "pnpm": "11.19.x"
+  },
+  "scripts": {
+    "setup": "pnpm install && pnpm db:generate && pnpm db:migrate",
+    "dev": "pnpm --parallel --filter backend --filter frontend dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint && pnpm docs:validate",
+    "format": "pnpm -r format",
+    "format:check": "pnpm -r format:check",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test && node --test scripts/scan-secrets.test.mjs",
+    "test:coverage": "pnpm -r test:coverage",
+    "test:e2e": "pnpm --filter backend test:e2e && pnpm --filter frontend build && pnpm --filter frontend test:e2e",
+    "verify": "pnpm lint && pnpm db:validate && pnpm typecheck && pnpm test && pnpm build",
+    "secrets:scan": "node scripts/scan-secrets.mjs",
+    "db:generate": "pnpm --filter backend db:generate",
+    "db:validate": "pnpm --filter backend db:validate",
+    "db:migrate": "pnpm --filter backend db:migrate",
+    "db:seed": "pnpm --filter backend db:seed",
+    "db:studio": "pnpm --filter backend db:studio",
+    "docs:validate": "node scripts/validate-docs.mjs"
+  }
+}
