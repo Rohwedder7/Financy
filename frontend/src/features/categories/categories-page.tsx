@@ -1,5 +1,8 @@
 import { useRef, useState } from 'react'
 import { useMutation, useQuery } from '@apollo/client/react'
+import { Button } from '../../components/button.tsx'
+import { figmaFrames } from '../../theme/figma-frames.ts'
+import { CategoryTag } from '../../components/category-tag.tsx'
 import { AppShell } from '../shell/app-shell.tsx'
 import { CategoryFormDialog } from './category-form-dialog.tsx'
 import { DeleteCategoryDialog } from './delete-category-dialog.tsx'
@@ -48,11 +51,10 @@ export function CategoriesPage() {
   const categories = listQuery.data?.categories ?? []
 
   return (
-    <AppShell title="Categorias">
-      <div className="flex items-center justify-between gap-4">
+    <AppShell figmaNode={figmaFrames.categories} title="Categorias">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <p className="text-sm text-financy-muted">Organize as categorias das suas transações.</p>
-        <button
-          className="rounded-xl bg-financy-green px-4 py-2.5 text-sm font-semibold text-white"
+        <Button
           onClick={(event) => {
             restoreFocusTo.current = event.currentTarget
             setEditor('new')
@@ -60,7 +62,7 @@ export function CategoriesPage() {
           type="button"
         >
           Nova categoria
-        </button>
+        </Button>
       </div>
 
       {listQuery.loading && !listQuery.data ? (
@@ -70,7 +72,10 @@ export function CategoriesPage() {
       ) : null}
 
       {listQuery.error && !listQuery.data ? (
-        <p className="mt-8 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">
+        <p
+          className="mt-8 rounded-lg bg-financy-danger/10 px-3 py-2 text-sm text-financy-danger"
+          role="alert"
+        >
           Não foi possível carregar as categorias.
         </p>
       ) : null}
@@ -80,35 +85,34 @@ export function CategoriesPage() {
       ) : null}
 
       {categories.length > 0 ? (
-        <ul className="mt-8 divide-y divide-financy-border rounded-2xl border border-financy-border bg-white">
+        <ul className="mt-8 grid gap-4 sm:grid-cols-2">
           {categories.map((category) => (
-            <li className="flex items-center gap-3 px-4 py-3" key={category.id}>
-              <span
-                aria-hidden="true"
-                className="size-3 shrink-0 rounded-full border border-financy-border"
-                style={{ backgroundColor: category.color ?? '#E1E5E3' }}
-              />
-              <span className="flex-1 font-medium">{category.name}</span>
-              <button
-                className="text-sm font-medium text-financy-green"
-                onClick={(event) => {
-                  restoreFocusTo.current = event.currentTarget
-                  setEditor(category)
-                }}
-                type="button"
-              >
-                Editar
-              </button>
-              <button
-                className="text-sm font-medium text-red-700"
-                onClick={(event) => {
-                  restoreFocusTo.current = event.currentTarget
-                  setRemoving(category)
-                }}
-                type="button"
-              >
-                Excluir
-              </button>
+            <li className="rounded-2xl border border-financy-border bg-white p-4" key={category.id}>
+              <div className="flex items-start justify-between gap-3">
+                <CategoryTag color={category.color} name={category.name} />
+                <div className="flex gap-3">
+                  <button
+                    className="text-sm font-medium text-financy-green hover:underline"
+                    onClick={(event) => {
+                      restoreFocusTo.current = event.currentTarget
+                      setEditor(category)
+                    }}
+                    type="button"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="text-sm font-medium text-financy-danger hover:underline"
+                    onClick={(event) => {
+                      restoreFocusTo.current = event.currentTarget
+                      setRemoving(category)
+                    }}
+                    type="button"
+                  >
+                    Excluir
+                  </button>
+                </div>
+              </div>
             </li>
           ))}
         </ul>

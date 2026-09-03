@@ -1,6 +1,6 @@
 ---
 id: SPEC-012
-status: approved
+status: completed
 product: PRD-FINANCY-001
 business-need: BND-FINANCY-001
 owner: Fullstack

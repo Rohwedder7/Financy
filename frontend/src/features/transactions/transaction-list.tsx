@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import { CategoryTag } from '../../components/category-tag.tsx'
 import { formatCentsToBRL, formatOccurredOn } from '../../lib/money.ts'
 import type { Transaction } from './operations.ts'
 
@@ -12,11 +13,14 @@ export function TransactionRows({ transactions }: { transactions: Transaction[] 
           <li className="flex flex-wrap items-center gap-3 px-4 py-3" key={transaction.id}>
             <div className="min-w-0 flex-1">
               <p className="font-medium">{transaction.description}</p>
-              <p className="text-sm text-financy-muted">
-                {formatOccurredOn(transaction.occurredAt)} · {transaction.category.name}
+              <p className="mt-1 flex flex-wrap items-center gap-2 text-sm text-financy-muted">
+                <span>{formatOccurredOn(transaction.occurredAt)}</span>
+                <CategoryTag color={transaction.category.color} name={transaction.category.name} />
               </p>
             </div>
-            <p className={`text-sm font-semibold ${income ? 'text-financy-green' : 'text-red-700'}`}>
+            <p
+              className={`text-sm font-semibold ${income ? 'text-financy-success' : 'text-financy-danger'}`}
+            >
               {income ? '+' : '−'} {formatCentsToBRL(transaction.amountInCents)}
             </p>
           </li>
@@ -44,22 +48,25 @@ export function TransactionList({
           <li className="flex flex-wrap items-center gap-3 px-4 py-3" key={transaction.id}>
             <div className="min-w-0 flex-1">
               <p className="font-medium">{transaction.description}</p>
-              <p className="text-sm text-financy-muted">
-                {formatOccurredOn(transaction.occurredAt)} · {transaction.category.name}
+              <p className="mt-1 flex flex-wrap items-center gap-2 text-sm text-financy-muted">
+                <span>{formatOccurredOn(transaction.occurredAt)}</span>
+                <CategoryTag color={transaction.category.color} name={transaction.category.name} />
               </p>
             </div>
-            <p className={`text-sm font-semibold ${income ? 'text-financy-green' : 'text-red-700'}`}>
+            <p
+              className={`text-sm font-semibold ${income ? 'text-financy-success' : 'text-financy-danger'}`}
+            >
               {income ? '+' : '−'} {formatCentsToBRL(transaction.amountInCents)}
             </p>
             <button
-              className="text-sm font-medium text-financy-green"
+              className="text-sm font-medium text-financy-green hover:underline"
               onClick={(event) => onEdit(transaction, event.currentTarget)}
               type="button"
             >
               Editar
             </button>
             <button
-              className="text-sm font-medium text-red-700"
+              className="text-sm font-medium text-financy-danger hover:underline"
               onClick={(event) => onRemove(transaction, event.currentTarget)}
               type="button"
             >
@@ -73,21 +80,21 @@ export function TransactionList({
 }
 
 export function RecentTransactions({ transactions }: { transactions: Transaction[] }) {
-  if (transactions.length === 0) {
-    return <p className="text-financy-muted">Nenhuma movimentação ainda.</p>
-  }
-
   return (
     <div className="grid gap-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-financy-muted">
-          Movimentações recentes
+        <h2 className="text-sm font-semibold tracking-wide text-financy-muted uppercase">
+          Transações recentes
         </h2>
         <Link className="text-sm font-medium text-financy-green" to="/transacoes">
           Ver todas
         </Link>
       </div>
-      <TransactionRows transactions={transactions.slice(0, 8)} />
+      {transactions.length === 0 ? (
+        <p className="text-financy-muted">Nenhuma movimentação ainda.</p>
+      ) : (
+        <TransactionRows transactions={transactions.slice(0, 8)} />
+      )}
     </div>
   )
 }

@@ -35,6 +35,14 @@ async function mockGraphQL(page: Page) {
       return
     }
 
+    if (name.includes('Categories') || name.includes('categories {')) {
+      await route.fulfill({
+        contentType: 'application/json',
+        json: { data: { categories: [] } },
+      })
+      return
+    }
+
     if (name.includes('Transactions') || /\btransactions\s*\{/.test(name)) {
       await route.fulfill({
         contentType: 'application/json',
@@ -124,4 +132,28 @@ test('logout returns the visitor to login', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Sair' }).click()
   await expect(page.getByRole('heading', { name: 'Entrar' })).toBeVisible()
+})
+
+test('AC-003: login and dashboard operate at 320px and by keyboard', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 720 })
+  await mockGraphQL(page)
+  await page.goto('/')
+
+  await expect(page.getByRole('heading', { name: 'Entrar' })).toBeVisible()
+  await expect(page.locator('[data-figma-node="3101:353"]')).toBeVisible()
+
+  await page.getByLabel('E-mail').focus()
+  await page.keyboard.press('Tab')
+  await page.keyboard.press('Tab')
+  await page.keyboard.press('Enter')
+  await expect(page.getByLabel('E-mail')).toBeFocused()
+
+  await page.getByLabel('E-mail').fill(USER.email)
+  await page.getByLabel('Senha').fill('correct horse')
+  await page.getByRole('button', { name: 'Entrar' }).click()
+
+  await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Resumo financeiro' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Sair' })).toBeVisible()
+  await expect(page.locator('[data-figma-node="3103:1987"]')).toBeVisible()
 })

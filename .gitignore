@@ -12,6 +12,7 @@ frontend/playwright-report/
 frontend/test-results/
 schema.gql
 *.log
+*.tsbuildinfo
 .DS_Store
 .idea/
 .vscode/

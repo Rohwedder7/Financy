@@ -1,4 +1,5 @@
 import { useId, useState, type RefObject } from 'react'
+import { Button } from '../../components/button.tsx'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '../../components/dialog.tsx'
 import { categoryMutationMessage } from './messages.ts'
 import type { Category } from './operations.ts'
@@ -46,20 +47,18 @@ export function DeleteCategoryDialog({
             : 'Confirme a exclusão da categoria.'}
         </DialogDescription>
         {formError ? (
-          <p className="mt-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">
+          <p
+            className="mt-4 rounded-lg bg-financy-danger/10 px-3 py-2 text-sm text-financy-danger"
+            role="alert"
+          >
             {formError}
           </p>
         ) : null}
         <div className="mt-6 flex justify-end gap-2">
-          <button
-            className="rounded-xl border border-financy-border px-4 py-2 text-sm font-medium"
-            onClick={() => onOpenChange(false)}
-            type="button"
-          >
+          <Button onClick={() => onOpenChange(false)} type="button" variant="secondary">
             Cancelar
-          </button>
-          <button
-            className="rounded-xl bg-red-700 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
+          </Button>
+          <Button
             disabled={pending || !category}
             onClick={async () => {
               setFormError(null)
@@ -73,10 +72,11 @@ export function DeleteCategoryDialog({
                 setPending(false)
               }
             }}
+            variant="danger"
             type="button"
           >
             Excluir
-          </button>
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

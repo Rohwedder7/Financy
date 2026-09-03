@@ -1,8 +1,11 @@
 import { useId, useState, type RefObject } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Button } from '../../components/button.tsx'
 import { Field } from '../../components/field.tsx'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '../../components/dialog.tsx'
+import { categorySwatches } from '../../theme/style-guide.ts'
+import { figmaFrames } from '../../theme/figma-frames.ts'
 import { categoryMutationMessage } from './messages.ts'
 import type { Category } from './operations.ts'
 import { categorySchema, toCategoryInput, type CategoryValues } from './schemas.ts'
@@ -27,6 +30,8 @@ export function CategoryFormDialog({
     formState: { errors, isSubmitting },
     handleSubmit,
     register,
+    setValue,
+    watch,
   } = useForm<CategoryValues>({
     defaultValues: {
       color: category?.color ?? '',
@@ -34,10 +39,12 @@ export function CategoryFormDialog({
     },
     resolver: zodResolver(categorySchema),
   })
+  const selectedColor = watch('color')
 
   return (
     <Dialog onOpenChange={onOpenChange} open={open}>
       <DialogContent
+        figmaNode={figmaFrames.dialogs}
         labelledBy={titleId}
         onCloseAutoFocus={(event) => {
           event.preventDefault()
@@ -54,7 +61,7 @@ export function CategoryFormDialog({
         <DialogDescription className="mt-1 text-sm text-financy-muted">
           {isEdit
             ? 'Altere o nome ou a cor. O nome precisa ser único entre as suas categorias.'
-            : 'Informe um nome único. A cor é opcional e usa o formato #RRGGBB.'}
+            : 'Informe um nome único. A cor é opcional; escolha um swatch do Style Guide ou digite #RRGGBB.'}
         </DialogDescription>
         <form
           className="mt-6 grid gap-4"
@@ -70,33 +77,53 @@ export function CategoryFormDialog({
           })}
         >
           {formError ? (
-            <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">
+            <p
+              className="rounded-lg bg-financy-danger/10 px-3 py-2 text-sm text-financy-danger"
+              role="alert"
+            >
               {formError}
             </p>
           ) : null}
-          <Field error={errors.name?.message} id="category-name" label="Nome" {...register('name')} />
           <Field
-            error={errors.color?.message}
-            id="category-color"
-            label="Cor"
-            placeholder="#5E55C2"
-            {...register('color')}
+            error={errors.name?.message}
+            id="category-name"
+            label="Nome"
+            {...register('name')}
           />
+          <fieldset className="grid gap-2">
+            <legend className="text-sm font-medium text-financy-ink">Cor</legend>
+            <div className="flex flex-wrap gap-2">
+              {categorySwatches.map((swatch) => {
+                const selected = selectedColor?.toUpperCase() === swatch.toUpperCase()
+
+                return (
+                  <button
+                    aria-label={`Usar cor ${swatch}`}
+                    aria-pressed={selected}
+                    className={`size-8 rounded-full border-2 ${selected ? 'border-financy-ink' : 'border-transparent'}`}
+                    key={swatch}
+                    onClick={() => setValue('color', swatch, { shouldValidate: true })}
+                    style={{ backgroundColor: swatch }}
+                    type="button"
+                  />
+                )
+              })}
+            </div>
+            <Field
+              error={errors.color?.message}
+              id="category-color"
+              label="Código"
+              placeholder="#125E3F"
+              {...register('color')}
+            />
+          </fieldset>
           <div className="flex justify-end gap-2">
-            <button
-              className="rounded-xl border border-financy-border px-4 py-2 text-sm font-medium"
-              onClick={() => onOpenChange(false)}
-              type="button"
-            >
+            <Button onClick={() => onOpenChange(false)} type="button" variant="secondary">
               Cancelar
-            </button>
-            <button
-              className="rounded-xl bg-financy-green px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
-              disabled={isSubmitting}
-              type="submit"
-            >
+            </Button>
+            <Button disabled={isSubmitting} type="submit">
               {isEdit ? 'Salvar' : 'Criar categoria'}
-            </button>
+            </Button>
           </div>
         </form>
       </DialogContent>

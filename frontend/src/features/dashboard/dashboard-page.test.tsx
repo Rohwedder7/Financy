@@ -6,12 +6,18 @@ import type { MockedProviderProps } from '@apollo/client/testing/react'
 import { ME_QUERY } from '../auth/operations.ts'
 import { writeToken } from '../../lib/session.ts'
 import { renderApp } from '../../test/render-app.tsx'
+import { CATEGORIES_QUERY } from '../categories/operations.ts'
 import { TRANSACTIONS_QUERY } from '../transactions/operations.ts'
 import { DASHBOARD_QUERY } from './operations.ts'
 import { EMPTY_DASHBOARD } from './summarize.ts'
 
 const USER = { email: 'ana@financy.test', id: 'user-ana', name: 'Ana' }
-const MERCADO = { color: '#A1B2C3', createdAt: '2026-01-01T00:00:00.000Z', id: 'cat-mercado', name: 'Mercado' }
+const MERCADO = {
+  color: '#A1B2C3',
+  createdAt: '2026-01-01T00:00:00.000Z',
+  id: 'cat-mercado',
+  name: 'Mercado',
+}
 const JANTAR = {
   amountInCents: 1005,
   category: { color: MERCADO.color, id: MERCADO.id, name: MERCADO.name },
@@ -65,13 +71,19 @@ describe('dashboard page', () => {
         request: { query: TRANSACTIONS_QUERY },
         result: { data: { transactions: [SALARIO, JANTAR] } },
       },
+      {
+        delay: 0,
+        request: { query: CATEGORIES_QUERY },
+        result: { data: { categories: [MERCADO] } },
+      },
     ])
 
     expect(await screen.findByRole('heading', { name: 'Saldo' })).toBeInTheDocument()
+    expect(document.querySelector('[data-figma-node="3103:1987"]')).toBeInTheDocument()
     expect(screen.getByText('R$ 4.239,95')).toBeInTheDocument()
     expect(screen.getByText('R$ 4.250,00')).toBeInTheDocument()
     expect(screen.getByText('R$ 10,05')).toBeInTheDocument()
-    expect(screen.getByText('Salário')).toBeInTheDocument()
+    expect(screen.getAllByText('Salário').length).toBeGreaterThan(0)
     expect(screen.getByText('Jantar')).toBeInTheDocument()
     expect(screen.queryByText('Aluguel de Bruno')).not.toBeInTheDocument()
   })
@@ -87,6 +99,11 @@ describe('dashboard page', () => {
         delay: 0,
         request: { query: TRANSACTIONS_QUERY },
         result: { data: { transactions: [] } },
+      },
+      {
+        delay: 0,
+        request: { query: CATEGORIES_QUERY },
+        result: { data: { categories: [] } },
       },
     ])
 
@@ -114,6 +131,11 @@ describe('dashboard page', () => {
         delay: 0,
         request: { query: TRANSACTIONS_QUERY },
         result: { data: { transactions: [] } },
+      },
+      {
+        delay: 0,
+        request: { query: CATEGORIES_QUERY },
+        result: { data: { categories: [] } },
       },
     ])
 

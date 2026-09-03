@@ -6,9 +6,8 @@ This repository is specification-driven. Product intent lives under `docs/produc
 
 ## Current status
 
-- SPECs 001–010 are implemented (auth, categories, transactions, dashboard).
-- SPEC-011 (Figma fidelity) remains blocked on `OPEN-UI-001`.
-- SPEC-012 (CI, hardening and delivery) is the active implementation unit.
+- SPECs 001–012 are completed on `main` (auth, categories, transactions, dashboard, Figma UI, CI).
+- Comparison screenshots live in `docs/product/visual/`. `OPEN-UI-001` is an accepted limitation: no Figma PAT for Dev Mode CSS-variable export.
 
 ## Stack
 
@@ -67,4 +66,4 @@ Setup for Context7, Figma and Superpowers is documented in `docs/tooling/MCP_SET
 
 ## Delivery rule
 
-The public grading branch must contain only mandatory challenge behavior. Optional avatar upload or other experiments belong in a separate branch after the required submission is preserved. Visual comparison with Figma nodes stays on SPEC-011 until `OPEN-UI-001` is resolved.
+The public grading branch must contain only mandatory challenge behavior. Optional avatar upload or other experiments belong in a separate branch after the required submission is preserved. Visual comparison screenshots live in `docs/product/visual/`. `OPEN-UI-001` records the accepted gap of Dev Mode variable export without a Figma PAT.

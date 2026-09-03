@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { GraphQLError } from 'graphql'
 import { afterEach, describe, expect, it } from 'vitest'
 import { writeToken } from '../../lib/session.ts'
+import { CATEGORIES_QUERY } from '../categories/operations.ts'
 import { DASHBOARD_QUERY } from '../dashboard/operations.ts'
 import { EMPTY_DASHBOARD } from '../dashboard/summarize.ts'
 import { TRANSACTIONS_QUERY } from '../transactions/operations.ts'
@@ -21,6 +22,11 @@ function dashboardMocks() {
       delay: 0,
       request: { query: TRANSACTIONS_QUERY },
       result: { data: { transactions: [] } },
+    },
+    {
+      delay: 0,
+      request: { query: CATEGORIES_QUERY },
+      result: { data: { categories: [] } },
     },
   ]
 }

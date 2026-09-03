@@ -30,7 +30,7 @@ Se um endpoint ou fluxo OAuth tiver mudado, não improvise credenciais: consulte
 2. Forneça links diretos Dev Mode com `node-id`, não apenas a capa.
 3. Para cada tela, obtenha contexto e screenshot do mesmo nó.
 4. Reuse assets retornados pelo servidor; não crie placeholders quando houver fonte real.
-5. A pendência `OPEN-UI-001` em `FIGMA_INVENTORY.md` precisa ser resolvida antes da implementação fiel.
+5. A comparação canvas × app está em `docs/product/visual/COMPARISON.md`. `OPEN-UI-001` registra a limitação aceita de não exportar variáveis CSS via Dev Mode sem PAT.
 
 ## Context7
 

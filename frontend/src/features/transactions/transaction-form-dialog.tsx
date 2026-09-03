@@ -1,13 +1,12 @@
 import { useId, useState, type RefObject } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Button } from '../../components/button.tsx'
 import { Field } from '../../components/field.tsx'
 import { SelectField } from '../../components/select-field.tsx'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '../../components/dialog.tsx'
-import {
-  formatCentsForInput,
-  occurredOnFromIso,
-} from '../../lib/money.ts'
+import { figmaFrames } from '../../theme/figma-frames.ts'
+import { formatCentsForInput, occurredOnFromIso } from '../../lib/money.ts'
 import type { Category } from '../categories/operations.ts'
 import { transactionMutationMessage } from './messages.ts'
 import type { Transaction } from './operations.ts'
@@ -57,6 +56,7 @@ export function TransactionFormDialog({
   return (
     <Dialog onOpenChange={onOpenChange} open={open}>
       <DialogContent
+        figmaNode={figmaFrames.dialogs}
         labelledBy={titleId}
         onCloseAutoFocus={(event) => {
           event.preventDefault()
@@ -87,7 +87,10 @@ export function TransactionFormDialog({
           })}
         >
           {formError ? (
-            <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">
+            <p
+              className="rounded-lg bg-financy-danger/10 px-3 py-2 text-sm text-financy-danger"
+              role="alert"
+            >
               {formError}
             </p>
           ) : null}
@@ -107,24 +110,35 @@ export function TransactionFormDialog({
           />
           <fieldset className="grid gap-2">
             <legend className="text-sm font-medium text-financy-ink">Tipo</legend>
-            <div className="flex gap-4">
-              <label className="flex items-center gap-2 text-sm">
-                <input type="radio" value="EXPENSE" {...register('type')} />
+            <div className="grid grid-cols-2 gap-2">
+              <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-financy-border px-3 py-2 text-sm has-[:checked]:border-financy-danger has-[:checked]:bg-financy-danger/10">
+                <input className="sr-only" type="radio" value="EXPENSE" {...register('type')} />
                 Despesa
               </label>
-              <label className="flex items-center gap-2 text-sm">
-                <input type="radio" value="INCOME" {...register('type')} />
+              <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-financy-border px-3 py-2 text-sm has-[:checked]:border-financy-success has-[:checked]:bg-financy-success/10">
+                <input className="sr-only" type="radio" value="INCOME" {...register('type')} />
                 Receita
               </label>
             </div>
             {errors.type?.message ? (
-              <p className="text-sm text-red-700" role="alert">
+              <p className="text-sm text-financy-danger" role="alert">
                 {errors.type.message}
               </p>
             ) : null}
           </fieldset>
-          <Field error={errors.occurredOn?.message} id="transaction-date" label="Data" type="date" {...register('occurredOn')} />
-          <SelectField error={errors.categoryId?.message} id="transaction-category" label="Categoria" {...register('categoryId')}>
+          <Field
+            error={errors.occurredOn?.message}
+            id="transaction-date"
+            label="Data"
+            type="date"
+            {...register('occurredOn')}
+          />
+          <SelectField
+            error={errors.categoryId?.message}
+            id="transaction-category"
+            label="Categoria"
+            {...register('categoryId')}
+          >
             <option value="">Selecione uma categoria</option>
             {categories.map((category) => (
               <option key={category.id} value={category.id}>
@@ -133,20 +147,12 @@ export function TransactionFormDialog({
             ))}
           </SelectField>
           <div className="flex justify-end gap-2">
-            <button
-              className="rounded-xl border border-financy-border px-4 py-2 text-sm font-medium"
-              onClick={() => onOpenChange(false)}
-              type="button"
-            >
+            <Button onClick={() => onOpenChange(false)} type="button" variant="secondary">
               Cancelar
-            </button>
-            <button
-              className="rounded-xl bg-financy-green px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
-              disabled={isSubmitting}
-              type="submit"
-            >
+            </Button>
+            <Button disabled={isSubmitting} type="submit">
               {isEdit ? 'Salvar' : 'Criar transação'}
-            </button>
+            </Button>
           </div>
         </form>
       </DialogContent>

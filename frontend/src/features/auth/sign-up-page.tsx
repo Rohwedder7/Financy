@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Button } from '../../components/button.tsx'
 import { Field } from '../../components/field.tsx'
 import { useAuth } from './auth-context.tsx'
+import { figmaFrames } from '../../theme/figma-frames.ts'
 import { AuthShell } from './auth-shell.tsx'
 import { signUpSchema, type SignUpValues } from './schemas.ts'
 
@@ -20,11 +22,13 @@ export function SignUpPage() {
 
   return (
     <AuthShell
+      figmaNode={figmaFrames.signUp}
+      subtitle="Preencha os campos abaixo para começar."
       title="Criar conta"
       footer={
         <p>
           Já tem conta?{' '}
-          <Link className="font-medium text-financy-green underline" to="/">
+          <Link className="font-medium text-financy-green" to="/">
             Entrar
           </Link>
         </p>
@@ -61,7 +65,10 @@ export function SignUpPage() {
         )}
       >
         {formError ? (
-          <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">
+          <p
+            className="rounded-lg bg-financy-danger/10 px-3 py-2 text-sm text-financy-danger"
+            role="alert"
+          >
             {formError}
           </p>
         ) : null}
@@ -88,13 +95,9 @@ export function SignUpPage() {
           type="password"
           {...register('password')}
         />
-        <button
-          className="rounded-xl bg-financy-green px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
-          disabled={isSubmitting}
-          type="submit"
-        >
+        <Button className="w-full" disabled={isSubmitting} type="submit">
           Criar conta
-        </button>
+        </Button>
       </form>
     </AuthShell>
   )

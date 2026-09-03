@@ -12,7 +12,7 @@
 - [x] Cadastro, login, logout e `me`.
 - [x] CRUD completo de categorias.
 - [x] CRUD completo de transações.
-- [x] Dashboard e navegação autenticada (tokens provisórios; comparação Figma na SPEC-011).
+- [x] Dashboard e navegação autenticada (Style Guide na SPEC-011; desvios Figma documentados).
 - [x] Isolamento usuário A/B demonstrado.
 
 ## Técnico
@@ -26,6 +26,6 @@
 ## Evidência
 
 - [x] Matriz de rastreabilidade sem lacunas silenciosas (`OPEN-UI-001` explícito).
-- [ ] SPECs concluídas movidas para `specs/completed` (SPEC-012 ainda ativa; SPEC-011 bloqueada).
-- [ ] Screenshots comparativos com os nós Figma (`OPEN-UI-001`).
-- [ ] Link público testado em janela anônima antes do envio.
+- [x] SPECs 001–012 em `specs/completed`.
+- [x] Screenshots comparativos com os nós Figma ([visual/COMPARISON.md](../product/visual/COMPARISON.md); `OPEN-UI-001` aceito no inspect Dev Mode).
+- [x] Repositório público visível sem autenticação: [Rohwedder7/Financy](https://github.com/Rohwedder7/Financy) (`visibility: public`, 2026-09-02).

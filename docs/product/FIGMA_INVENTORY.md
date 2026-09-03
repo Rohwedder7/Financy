@@ -1,53 +1,77 @@
 ---
 id: FIGMA-FINANCY-001
-status: blocked
+status: completed
 owner: Frontend + Design
-blocked-by: OPEN-UI-001
 ---
 
 # Inventário Figma
 
-## Fonte
+## Fonte canônica (cópia do Community)
 
-- Arquivo: [Financy — Community](https://www.figma.com/design/ZJPY2R5yPCrZmq8cjUHk9n/Financy--Community-?node-id=0-1&m=dev)
-- Protótipo: [fluxo inicial](https://www.figma.com/proto/ZJPY2R5yPCrZmq8cjUHk9n/Financy--Community-?node-id=915-685&p=f&scaling=contain&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=915%3A685)
-- Arquivo-chave: `ZJPY2R5yPCrZmq8cjUHk9n`
-- Página disponibilizada: `0:1`
-- Nó inicial do protótipo: `915:685`
+Arquivo enviado em 2026-09-01, dono visível `WillRohvedder`:
 
-## Evidências obtidas
+- Arquivo Dev Mode: [Financy — Community](https://www.figma.com/design/Sj0a8DSgyFq1tbAUyLadwz/Financy--Community-?node-id=0-1&m=dev)
+- Arquivo-chave: `Sj0a8DSgyFq1tbAUyLadwz`
 
-| Nó | Nome | Uso |
+O Community original (`ZJPY2R5yPCrZmq8cjUHk9n`) permanece como origem pública; a implementação usa a cópia acima.
+
+## Páginas
+
+| Nó | Página | Link |
 | --- | --- | --- |
-| `915:685` | Thumbnail | Capa do projeto |
-| `928:587` | Cover | Capa “Financy — Desafio de pós-graduação” |
+| `0:1` | 🚀 Sobre | [abrir](https://www.figma.com/design/Sj0a8DSgyFq1tbAUyLadwz/Financy--Community-?node-id=0-1&m=dev) |
+| `3:376` | 💻 Projeto | [abrir](https://www.figma.com/design/Sj0a8DSgyFq1tbAUyLadwz/Financy--Community-?node-id=3-376&m=dev) |
+| `3:377` | 🎨 Style Guide | [abrir](https://www.figma.com/design/Sj0a8DSgyFq1tbAUyLadwz/Financy--Community-?node-id=3-377&m=dev) |
 
-A prévia da capa evidencia navegação com Dashboard, Transações e Categorias; cartões de saldo, receitas e despesas; lista de transações; lista de categorias; e ação “Nova transação”. Esses elementos são evidência de direção, não medidas implementáveis sem os nós das telas.
+## Telas e dialogs (frames Auto layout, página Projeto)
 
-## Tokens observados na capa
+Base: `https://www.figma.com/design/Sj0a8DSgyFq1tbAUyLadwz/Financy--Community-?node-id=` + id com hífen + `&m=dev`.
 
-| Token Figma | Valor |
+| Nó | Nome | Tipo | Link |
+| --- | --- | --- | --- |
+| `3107:3489` | Acesso | Section (login + cadastro) | [abrir](https://www.figma.com/design/Sj0a8DSgyFq1tbAUyLadwz/Financy--Community-?node-id=3107-3489&m=dev) |
+| `3101:353` | Login | Tela | [abrir](https://www.figma.com/design/Sj0a8DSgyFq1tbAUyLadwz/Financy--Community-?node-id=3101-353&m=dev) |
+| `3103:1915` | Cadastro | Tela | [abrir](https://www.figma.com/design/Sj0a8DSgyFq1tbAUyLadwz/Financy--Community-?node-id=3103-1915&m=dev) |
+| `3103:1987` | Dashboard | Tela 1280×800 | [abrir](https://www.figma.com/design/Sj0a8DSgyFq1tbAUyLadwz/Financy--Community-?node-id=3103-1987&m=dev) |
+| `3104:362` | Transações | Tela | [abrir](https://www.figma.com/design/Sj0a8DSgyFq1tbAUyLadwz/Financy--Community-?node-id=3104-362&m=dev) |
+| `3104:2028` | Categorias | Tela | [abrir](https://www.figma.com/design/Sj0a8DSgyFq1tbAUyLadwz/Financy--Community-?node-id=3104-2028&m=dev) |
+| `3104:2925` | Perfil | Sexta página do arquivo | [abrir](https://www.figma.com/design/Sj0a8DSgyFq1tbAUyLadwz/Financy--Community-?node-id=3104-2925&m=dev) |
+| `3107:3599` | Gestão | Section com os dois overlays | [abrir](https://www.figma.com/design/Sj0a8DSgyFq1tbAUyLadwz/Financy--Community-?node-id=3107-3599&m=dev) |
+
+Os overlays de **Nova transação** e **Nova categoria** estão nas artboards da seção Gestão (dashboard e categorias com modal aberto). Os nós de texto internos `3107:4985` e `3104:2494` não são o frame do dialog.
+
+## Style Guide observado (`3:377`)
+
+Inspeção visual da página Estilos/Componentes. Hex lidos dos swatches rotulados; o inspect Dev Mode de variáveis exportadas não esteve disponível sem PAT (`OPEN-UI-001` aceito).
+
+| Token | Valor observado |
 | --- | --- |
-| gray-950 | `#E1E1E6` |
-| white | `#FFFFFF` |
-| gray-800 | `#8D8D99` |
-| gray-300 | `#202024` |
-| FTR purple | `#5E55C2` |
-| Tipografia | Plus Jakarta Sans |
+| Brand | `#184835`, `#125E3F`, `#229367` |
+| Grayscale | `#161719` `#23262F` `#353945` `#777E90` `#B1B5C3` `#E6E8EC` `#F4F5F6` `#FCFCFD` `#FFFFFF` |
+| Feedback | erro `#EF466F`, aviso `#FFD166`, sucesso `#45B36B` |
+| Tipografia | Inter |
+| Componentes | input default/foco/erro, botão primário verde, secundário, ghost, tags, ícones stroke |
 
-Os tokens finais do produto devem ser extraídos da página **Style Guide**; estes valores não autorizam completar por suposição o tema inteiro.
+A capa usa Plus Jakarta Sans; o Style Guide (Inter) prevalece na implementação.
 
-## Pendência bloqueadora
+## Decisão de produto (2026-09-02)
 
-`OPEN-UI-001`: os links fornecidos expõem a página “Sobre” e a capa, mas não retornam os nós diretos das seis páginas e dos dois dialogs mencionados no desafio. O arquivo lista as páginas `🚀 Sobre`, `💻 Projeto` e `🎨 Style Guide`; na visualização anônima da Community, selecionar **Projeto** continua mostrando apenas as layers Thumbnail/About (`node-id=0-1`). Antes da SPEC-011, fornecer links Dev Mode com `node-id` para login, cadastro, dashboard, transações, categorias, sexta página e ambos os dialogs — em geral após duplicar o arquivo na conta Figma.
+Seguir a SPEC-011 nas rotas obrigatórias. O PRD prevalece sobre o Figma nestes pontos:
 
-Não inventar a sexta página, medidas, variantes ou estados. Enquanto a pendência estiver aberta, a fundação visual usa apenas tokens provisórios claramente isolados em CSS.
+| Figma | Entrega |
+| --- | --- |
+| Gráfico e orçamento no Dashboard | Omitidos; cartões de saldo/receitas/despesas e lista recente |
+| Filtros na lista de transações | Omitidos |
+| Página Perfil / avatar | Fora da branch obrigatória |
+| Marca desenhada e ícones | Wordmark tipográfico; sem ícones recriados à mão |
 
-Decisão de produto (2026-09-01): as SPECs 007, 009 e 010 implementam o CRUD e o resumo funcional com esses tokens provisórios. A SPEC-012 segue a entrega com a mesma pendência. A comparação com os nós Figma continua bloqueada em `OPEN-UI-001` / SPEC-011.
+## Encerramento
+
+Capturas canvas × app versionadas em [visual/COMPARISON.md](./visual/COMPARISON.md) (2026-09-02). `OPEN-UI-001` aceito: sem exportação autenticada de variáveis CSS/SVG; tokens da entrega são os swatches rotulados.
 
 ## Procedimento por tela
 
-1. Abrir o link direto do nó com o MCP oficial do Figma.
+1. Abrir o link direto do nó.
 2. Capturar contexto e screenshot do mesmo nó.
 3. Mapear tokens e assets reais antes do JSX.
 4. Implementar responsividade e estados não representados sem alterar a hierarquia visual.

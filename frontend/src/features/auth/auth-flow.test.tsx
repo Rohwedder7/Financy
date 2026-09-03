@@ -3,6 +3,7 @@ import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it } from 'vitest'
 import { SIGN_IN_MUTATION, SIGN_UP_MUTATION } from './operations.ts'
+import { CATEGORIES_QUERY } from '../categories/operations.ts'
 import { DASHBOARD_QUERY } from '../dashboard/operations.ts'
 import { EMPTY_DASHBOARD } from '../dashboard/summarize.ts'
 import { TRANSACTIONS_QUERY } from '../transactions/operations.ts'
@@ -21,8 +22,10 @@ describe('visitor authentication', () => {
     renderApp()
 
     expect(await screen.findByRole('heading', { name: 'Entrar' })).toBeInTheDocument()
+    expect(document.querySelector('[data-figma-node="3101:353"]')).toBeInTheDocument()
     await user.click(screen.getByRole('link', { name: 'Criar conta' }))
     expect(await screen.findByRole('heading', { name: 'Criar conta' })).toBeInTheDocument()
+    expect(document.querySelector('[data-figma-node="3103:1915"]')).toBeInTheDocument()
   })
 
   it('opens the dashboard after a valid sign-in', async () => {
@@ -46,6 +49,11 @@ describe('visitor authentication', () => {
           delay: 0,
           request: { query: TRANSACTIONS_QUERY },
           result: { data: { transactions: [] } },
+        },
+        {
+          delay: 0,
+          request: { query: CATEGORIES_QUERY },
+          result: { data: { categories: [] } },
         },
       ],
     })
@@ -83,6 +91,11 @@ describe('visitor authentication', () => {
           delay: 0,
           request: { query: TRANSACTIONS_QUERY },
           result: { data: { transactions: [] } },
+        },
+        {
+          delay: 0,
+          request: { query: CATEGORIES_QUERY },
+          result: { data: { categories: [] } },
         },
       ],
     })

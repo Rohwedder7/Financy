@@ -91,7 +91,9 @@ async function mockFinanceGraphQL(page: Page, seed: Transaction[] = []) {
   })
 }
 
-test('AC-001: summary uses principal data and balance is income minus expense', async ({ page }) => {
+test('AC-001: summary uses principal data and balance is income minus expense', async ({
+  page,
+}) => {
   await mockFinanceGraphQL(page, [
     {
       amountInCents: 4_250_00,
@@ -117,10 +119,16 @@ test('AC-001: summary uses principal data and balance is income minus expense', 
   await page.goto('/')
 
   await expect(page.getByRole('heading', { name: 'Saldo' })).toBeVisible()
-  await expect(page.getByRole('article').filter({ hasText: 'Saldo' }).getByText('R$ 4.239,95')).toBeVisible()
-  await expect(page.getByRole('article').filter({ hasText: 'Receitas' }).getByText('R$ 4.250,00')).toBeVisible()
-  await expect(page.getByRole('article').filter({ hasText: 'Despesas' }).getByText('R$ 10,05')).toBeVisible()
-  await expect(page.getByText('Salário', { exact: true })).toBeVisible()
+  await expect(
+    page.getByRole('article').filter({ hasText: 'Saldo' }).getByText('R$ 4.239,95'),
+  ).toBeVisible()
+  await expect(
+    page.getByRole('article').filter({ hasText: 'Receitas' }).getByText('R$ 4.250,00'),
+  ).toBeVisible()
+  await expect(
+    page.getByRole('article').filter({ hasText: 'Despesas' }).getByText('R$ 10,05'),
+  ).toBeVisible()
+  await expect(page.getByRole('paragraph').filter({ hasText: /^Salário$/ })).toBeVisible()
   await expect(page.getByText('Jantar', { exact: true })).toBeVisible()
   await expect(page.getByText('Aluguel de Bruno')).toHaveCount(0)
 })
@@ -134,7 +142,9 @@ test('AC-002: no transactions show zeros and a useful empty state', async ({ pag
   await expect(page.getByText('Nenhuma movimentação ainda.')).toBeVisible()
 })
 
-test('AC-003: a visitor cannot open private routes and logout returns to login', async ({ page }) => {
+test('AC-003: a visitor cannot open private routes and logout returns to login', async ({
+  page,
+}) => {
   await page.goto('/transacoes')
   await expect(page.getByRole('heading', { name: 'Entrar' })).toBeVisible()
 

@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { useMutation, useQuery } from '@apollo/client/react'
+import { Button } from '../../components/button.tsx'
+import { figmaFrames } from '../../theme/figma-frames.ts'
 import { AppShell } from '../shell/app-shell.tsx'
 import { CATEGORIES_QUERY, type Category } from '../categories/operations.ts'
 import { DeleteTransactionDialog } from './delete-transaction-dialog.tsx'
@@ -20,32 +22,43 @@ import {
 export function TransactionsPage() {
   const listQuery = useQuery<{ transactions: Transaction[] }>(TRANSACTIONS_QUERY)
   const categoriesQuery = useQuery<{ categories: Category[] }>(CATEGORIES_QUERY)
-  const [createTransaction] = useMutation<{ createTransaction: Transaction }>(CREATE_TRANSACTION_MUTATION, {
-    update(cache, { data }) {
-      if (!data?.createTransaction) {
-        return
-      }
+  const [createTransaction] = useMutation<{ createTransaction: Transaction }>(
+    CREATE_TRANSACTION_MUTATION,
+    {
+      update(cache, { data }) {
+        if (!data?.createTransaction) {
+          return
+        }
 
-      writeTransactions(cache, sortTransactions([...readTransactions(cache), data.createTransaction]))
+        writeTransactions(
+          cache,
+          sortTransactions([...readTransactions(cache), data.createTransaction]),
+        )
+      },
     },
-  })
-  const [updateTransaction] = useMutation<{ updateTransaction: Transaction }>(UPDATE_TRANSACTION_MUTATION, {
-    update(cache, { data }) {
-      if (!data?.updateTransaction) {
-        return
-      }
+  )
+  const [updateTransaction] = useMutation<{ updateTransaction: Transaction }>(
+    UPDATE_TRANSACTION_MUTATION,
+    {
+      update(cache, { data }) {
+        if (!data?.updateTransaction) {
+          return
+        }
 
-      writeTransactions(
-        cache,
-        sortTransactions(
-          readTransactions(cache).map((item) =>
-            item.id === data.updateTransaction.id ? data.updateTransaction : item,
+        writeTransactions(
+          cache,
+          sortTransactions(
+            readTransactions(cache).map((item) =>
+              item.id === data.updateTransaction.id ? data.updateTransaction : item,
+            ),
           ),
-        ),
-      )
+        )
+      },
     },
-  })
-  const [deleteTransaction] = useMutation<{ deleteTransaction: boolean }>(DELETE_TRANSACTION_MUTATION)
+  )
+  const [deleteTransaction] = useMutation<{ deleteTransaction: boolean }>(
+    DELETE_TRANSACTION_MUTATION,
+  )
   const [editor, setEditor] = useState<Transaction | 'new' | null>(null)
   const [removing, setRemoving] = useState<Transaction | null>(null)
   const restoreFocusTo = useRef<HTMLElement | null>(null)
@@ -53,11 +66,10 @@ export function TransactionsPage() {
   const categories = categoriesQuery.data?.categories ?? []
 
   return (
-    <AppShell title="Transações">
-      <div className="flex items-center justify-between gap-4">
-        <p className="text-sm text-financy-muted">Lance receitas e despesas em centavos inteiros.</p>
-        <button
-          className="rounded-xl bg-financy-green px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
+    <AppShell figmaNode={figmaFrames.transactions} title="Transações">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <p className="text-sm text-financy-muted">Gerencie todas as suas transações financeiras.</p>
+        <Button
           disabled={categories.length === 0}
           onClick={(event) => {
             restoreFocusTo.current = event.currentTarget
@@ -66,7 +78,7 @@ export function TransactionsPage() {
           type="button"
         >
           Nova transação
-        </button>
+        </Button>
       </div>
 
       {categoriesQuery.data && categories.length === 0 ? (
@@ -85,7 +97,10 @@ export function TransactionsPage() {
       ) : null}
 
       {listQuery.error && !listQuery.data ? (
-        <p className="mt-8 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">
+        <p
+          className="mt-8 rounded-lg bg-financy-danger/10 px-3 py-2 text-sm text-financy-danger"
+          role="alert"
+        >
           Não foi possível carregar as transações.
         </p>
       ) : null}
